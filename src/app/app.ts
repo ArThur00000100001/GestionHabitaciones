@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { inicio } from './inicio/inicio'
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,10 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('proyecto1');
+  
+  constructor(){
+    //fetch await
+    fetch('http://192.168.0.113:3000/habitaciones').then( async x=> console.log(await x.json()))
+  }
+
 }

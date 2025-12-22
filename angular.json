@@ -62,6 +62,7 @@
           "configurations": {
             "production": {
               "buildTarget": "proyecto1:build:production"
+              
             },
             "development": {
               "buildTarget": "proyecto1:build:development"
