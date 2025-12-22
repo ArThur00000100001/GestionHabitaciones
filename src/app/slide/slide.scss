@@ -1,0 +1,18 @@
+.slide{
+    background-color: rgba(123, 220, 255, 0.922);
+    height: 93.1vh;
+}
+
+.item{
+    background-color: rgba(0, 0, 0, 0.493);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    height: 50px;
+}
+
+.item a{
+    font-size: 25px;
+    color: white;
+}
