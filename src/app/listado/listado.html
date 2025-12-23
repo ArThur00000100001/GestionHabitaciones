@@ -1,94 +1,125 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card" style="width: 120%">
-        <div class="card-header bg-info text-center">
-          <div>
-            <h1>Lista de Habitaciones</h1>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              @for (item of habitaciones(); track $index) {
-              {{ item.id }}: {{ item.tipo_habitacion }} - {{ item.piso }}
-              <button (click)="eliminar(item.id)">🗑</button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
-                Editar
-              </button>
-              <br />
-
-              <!-- Modal -->
-              <div
-                class="modal fade"
-                id="exampleModal"
-                tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="width: 120%">
+                <div class="card-header bg-info text-center">
+                    <div>
+                        <h1>Lista de Habitaciones</h1>
                     </div>
-                    <div class="modal-body">
-                      <div class="col-md-6">
-                        <select class="form-control" #clase>
-                          <option value="">Selecciona una clase</option>
-                          <option value="simple">Simple</option>
-                          <option value="doble">Doble</option>
-                          <option value="ejecutiva">Ejecutiva</option>
-                        </select>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <select class="form-control" #piso>
-                          <option value="">Seleccione su piso</option>
-                          <option value="1">Piso 1</option>
-                          <option value="2">Piso 2</option>
-                          <option value="3">Piso 3</option>
-                          <option value="4">Piso 4</option>
-                          <option value="5">Piso 5</option>
-                          <option value="6">Piso 6</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        (click)="editar(clase.value, piso.value, item.id)"
-                      >
-                        Guardar
-                      </button>
-                    </div>
-                  </div>
                 </div>
-              </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @for (item of habitaciones(); track $index) {
+                            {{ item.id }}: {{ item.tipo_habitacion }} - {{ item.piso }}
+                            <button (click)="eliminar(item.id)">🗑</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Editar
+                            </button>
+                            <br />
 
-              }
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-md-6">
+                                                <select class="form-control" #clase>
+                                                    <option value="">Selecciona una clase</option>
+                                                    <option value="simple">Simple</option>
+                                                    <option value="doble">Doble</option>
+                                                    <option value="ejecutiva">Ejecutiva</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <select class="form-control" #piso>
+                                                    <option value="">Seleccione su piso</option>
+                                                    <option value="1">Piso 1</option>
+                                                    <option value="2">Piso 2</option>
+                                                    <option value="3">Piso 3</option>
+                                                    <option value="4">Piso 4</option>
+                                                    <option value="5">Piso 5</option>
+                                                    <option value="6">Piso 6</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                            <button type="button" class="btn btn-primary"
+                                                (click)="editar(clase.value, piso.value, item.id)">
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#buscarModal">
+                                Buscar
+                            </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-6"></div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="buscarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-6">
+                    <select class="form-control" #clase>
+                        <option value="">Selecciona una clase</option>
+                        <option value="simple">Simple</option>
+                        <option value="doble">Doble</option>
+                        <option value="ejecutiva">Ejecutiva</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <select class="form-control" #piso>
+                        <option value="">Seleccione su piso</option>
+                        <option value="1">Piso 1</option>
+                        <option value="2">Piso 2</option>
+                        <option value="3">Piso 3</option>
+                        <option value="4">Piso 4</option>
+                        <option value="5">Piso 5</option>
+                        <option value="6">Piso 6</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

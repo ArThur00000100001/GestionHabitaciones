@@ -1,0 +1,150 @@
+<div class="container">
+    <div class="row mt-5">
+        <!-- <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white text-center">
+                    <div>
+                        <h1>Añadir Usuario</h1>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Ingrese su DNI</label>
+                            <input class="form-control" type="text" (input)="verificar($event, dni)"
+                                placeholder="Ingrese su DNI" size="15" [maxLength]="8" #dni>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">nombre</label>
+                            <input class="form-control" type="text" placeholder="Ingese su nombre" size="15"
+                                [maxLength]="20" #nombre>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="from-label">Apellido paterno</label>
+                            <input class="form-control" type="text" placeholder="ingrese su apellido paterno" size="25"
+                                [maxLength]="20" #apellidoP>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">apellido materno</label>
+                            <input class="form-control" type="text" placeholder="Ingese su apellido materno" size="25"
+                                [maxLength]="20" #apellidoM>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-dark color-white"
+                        (click)="ingresar(dni.value, nombre.value, apellidoP.value, apellidoM.value)">Guardar</button>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div class="col-12">
+            <div class="card" style="width: 120%">
+                <div class="card-header bg-dark text-white text-center">
+                    <div>
+                        <h1>Lista de usuarios</h1>
+                    </div>
+                   
+                </div>
+                <div class="card-body">
+                     <div>
+                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})">+ Nuevo usuario</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">DNI</th>
+                                        <th scope="col">NOMBRE</th>
+                                        <th scope="col">APELLIDO PATERNO</th>
+                                        <th scope="col">APELLIDO MATERNO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (item of usuarios(); track $index) {
+                                    <tr>
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.dni}}</td>
+                                        <td>{{item.nombres}}</td>
+                                        <td>{{item.primer_apellido}}</td>
+                                        <td>{{item.segundo_apellido}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" (click)="borrar(item.id)">
+                                                <i class="bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary"
+                                                (click)="data.set({mode: 'edit', item: item})">
+                                                <i class="bi-pen"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Modal-->
+@let _data = data();
+@if(_data != null){
+@let usuario = _data.item;
+<div class="modal d-block" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                <button type="button" class="btn-close" (click)="data.set(null)"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label class="form-label">DNI</label>
+                        <input class="form-control" type="text" placeholder="Ingrese su DNI" size="15" [maxLength]="8"
+                            [value]="usuario?.dni" #dniModal>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" type="text" placeholder="Ingese su nombre" size="15"
+                            [maxLength]="20" [value]="usuario?.nombres" #nombreModal>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Apellido paterno</label>
+                        <input class="form-control" type="text" placeholder="ingrese su apellido paterno" size="23"
+                            [maxLength]="20" [value]="usuario?.primer_apellido" #apellidoPModal>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">apellido materno</label>
+                        <input class="form-control" type="text" placeholder="Ingese su apellido materno" size="23"
+                            [maxLength]="20" [value]="usuario?.segundo_apellido" #apellidoMModal>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    (click)="data.set(null)">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    (click)="guardar(usuario?.id, dniModal.value, nombreModal.value, apellidoPModal.value, apellidoMModal.value);">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

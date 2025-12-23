@@ -1,5 +1,5 @@
 .slide{
-    background-color: rgba(123, 220, 255, 0.922);
+    background-color: rgba(0, 39, 90, 0.055);
     height: 93.1vh;
 }
 
@@ -9,7 +9,12 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+    margin-top: 2rem;
     height: 50px;
+}
+
+.item:hover{
+    cursor: pointer;
 }
 
 .item a{
