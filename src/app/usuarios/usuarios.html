@@ -39,7 +39,7 @@
 
 
         <div class="col-12">
-            <div class="card" style="width: 120%">
+            <div class="card">
                 <div class="card-header bg-dark text-white text-center">
                     <div>
                         <h1>Lista de usuarios</h1>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-body">
                      <div>
-                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})">+ Nuevo usuario</button>
+                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})"><i class="bi bi-plus-square"></i> Nuevo usuario</button>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -74,13 +74,13 @@
                                             <button type="button" class="btn btn-danger" (click)="borrar(item.id)">
                                                 <i class="bi-trash-fill"></i>
                                             </button>
-                                        </td>
-                                        <td>
+                                            -
                                             <button type="button" class="btn btn-primary"
                                                 (click)="data.set({mode: 'edit', item: item})">
                                                 <i class="bi-pen"></i>
                                             </button>
                                         </td>
+                                        
                                     </tr>
                                     }
                                 </tbody>
@@ -112,7 +112,7 @@
 
                     <div class="col-md-6">
                         <label class="form-label">DNI</label>
-                        <input class="form-control" type="text" placeholder="Ingrese su DNI" size="15" [maxLength]="8"
+                        <input class="form-control" type="text" (input)="verificar($event, dniModal)" placeholder="Ingrese su DNI" size="15" [maxLength]="8"
                             [value]="usuario?.dni" #dniModal>
                     </div>
                     <div class="col-md-6 mb-3">

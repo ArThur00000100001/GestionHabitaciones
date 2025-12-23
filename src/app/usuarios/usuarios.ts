@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
+import { baseUrl } from '../../enviroment';
 type ModalData = { mode: 'edit' | 'add'; item: Usuario | null };
-type Usuario = {
+export type Usuario = {
   id: number;
   nombres: string;
   primer_apellido: string;
@@ -29,7 +30,7 @@ export class usuarios {
   }
 
   async cargarDatos() {
-    const list = await fetch('https://hotel.caffeedev.com/usuarios');
+    const list = await fetch(`${baseUrl}/usuarios`);
     const data = await list.json();
 
     if (data != null && Array.isArray(data)) {
@@ -46,7 +47,7 @@ export class usuarios {
       return;
     }
 
-    const response = await fetch('https://hotel.caffeedev.com/usuarios', {
+    const response = await fetch(`${baseUrl}/usuarios`, {
       method: 'POST',
       body: JSON.stringify({
         nombres: nombres,
@@ -70,7 +71,7 @@ export class usuarios {
   }
 
   async borrar(id: number) {
-    const response = await fetch(`https://hotel.caffeedev.com/usuarios/${id}`, {
+    const response = await fetch(`${baseUrl}/usuarios/${id}`, {
       method: 'DELETE',
       headers: { 'Content-type': 'application/son ' },
     });
@@ -92,7 +93,7 @@ export class usuarios {
     apellidoM: string,
   ) {
     if (this.data()?.mode == 'edit') {
-      const response = await fetch(`https://hotel.caffeedev.com/usuarios/${id}`, {
+      const response = await fetch(`${baseUrl}/usuarios/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           nombres: nombre,
