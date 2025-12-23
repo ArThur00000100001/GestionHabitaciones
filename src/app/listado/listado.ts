@@ -65,15 +65,15 @@ export class listado {
 
   }
 
-  async editar(clase:string, piso:string, id:string){
-    const response = await fetch(`http://192.168.0.113:3000/habitaciones/${+id}`,{
+  async editar(clase:string, piso:string, id:number){
+    const response = await fetch(`http://192.168.0.113:3000/habitaciones/${id}`,{
         method: 'PUT',
         headers: {
             'Content-type' : 'application/json'
         },
         body: JSON.stringify({
             tipo_habitacion: clase,
-            piso: +piso
+            piso: piso
         })
     })
 
