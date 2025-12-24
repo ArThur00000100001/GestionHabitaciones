@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { baseUrl } from '../../enviroment';
+import { FormsModule } from '@angular/forms';
+import { Validator, FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+
 type ModalData = { mode: 'edit' | 'add'; item: Usuario | null };
 export type Usuario = {
   id: number;
@@ -10,6 +13,7 @@ export type Usuario = {
 };
 
 @Component({
+  imports: [FormsModule, ReactiveFormsModule],
   selector: 'usuarios-view',
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.scss',
@@ -17,6 +21,7 @@ export type Usuario = {
 export class usuarios {
   usuarios = signal<Usuario[]>([]);
   dniValue = signal<string>('');
+  formData: FormGroup;
 
   dniUser = signal<string>('');
   nombreUser = signal<string>('');
@@ -24,9 +29,36 @@ export class usuarios {
   apelldioMUser = signal<string>('');
 
   readonly data = signal<ModalData | null>(null);
+  readonly userDNI = signal<string>('');
+  readonly userName = signal<string>('');
+  readonly userLastnameP = signal<string>('');
+  readonly userLasnameM = signal<string>('');
 
   constructor() {
     this.cargarDatos();
+
+    this.formData = new FormGroup({
+      dni: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(8),
+        Validators.minLength(8),
+      ]),
+      nombre: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(15),
+        Validators.minLength(3),
+      ]),
+      apellidoP: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(15),
+      ]),
+      apellidoM: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(15),
+      ]),
+    });
   }
 
   async cargarDatos() {
@@ -39,32 +71,39 @@ export class usuarios {
     }
   }
 
-  async ingresar(dni: string, nombres: string, apellidoP: string, apellidoM: string) {
-    if (!(+dni == +dni)) {
-      this.dniValue.set('');
+  async ingresar() {
+    if (!(+this.formData.get('dni')?.value == +this.formData.get('dni')?.value)) {
+      this.formData.get('dni')?.setValue('');
       console.log('ere');
       alert('Ingrese un dni valido');
       return;
     }
 
-    const response = await fetch(`${baseUrl}/usuarios`, {
-      method: 'POST',
-      body: JSON.stringify({
-        nombres: nombres,
-        primer_apellido: apellidoP,
-        segundo_apellido: apellidoM,
-        dni: +dni,
-      }),
-      headers: {
-        'Content-type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
+    const isValidForm = this.formData.valid;
 
-    if (!response) {
-      console.log('Error');
-    } else {
-      console.log('Funciona');
+    if (isValidForm) {
+      const response = await fetch(`${baseUrl}/usuarios`, {
+        method: 'POST',
+        body: JSON.stringify({
+          nombres: this.formData.get('nombre')?.value,
+          primer_apellido: this.formData.get('apellidoP')?.value,
+          segundo_apellido: this.formData.get('apellidoM')?.value,
+          dni: +this.formData.get('dni')?.value,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response) {
+        console.log('Error');
+      } else {
+        console.log('Funciona');
+        this.data.set(null);
+      }
+    }else{
+      this.formData.markAllAsTouched();
     }
 
     this.cargarDatos();
@@ -85,21 +124,15 @@ export class usuarios {
     this.cargarDatos();
   }
 
-  async guardar(
-    id: number | undefined,
-    dni: string,
-    nombre: string,
-    apellidoP: string,
-    apellidoM: string,
-  ) {
+  async guardar(id: number | undefined) {
     if (this.data()?.mode == 'edit') {
       const response = await fetch(`${baseUrl}/usuarios/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
-          nombres: nombre,
-          primer_apellido: apellidoP,
-          segundo_apellido: apellidoM,
-          dni: +dni,
+          nombres: this.userName(),
+          primer_apellido: this.userLastnameP(),
+          segundo_apellido: this.userLasnameM(),
+          dni: +this.userDNI(),
         }),
         headers: { 'Content-type': 'application/json' },
       });
@@ -109,14 +142,14 @@ export class usuarios {
       } else {
         console.log('Funciona');
         this.cargarDatos();
+        this.data.set(null);
       }
-     
     }
     if (this.data()?.mode == 'add') {
-      this.ingresar(dni, nombre, apellidoP, apellidoM);
+      this.ingresar();
     }
 
-     this.data.set(null);
+    
   }
 
   closeModal(
@@ -131,14 +164,13 @@ export class usuarios {
     apellidoM.value = '';
   }
 
-  verificar(event: Event, inputElement: HTMLInputElement) {
-    const input = event.target as HTMLInputElement;
-    let valor = input.value;
-
+  verificar(inputElement: HTMLInputElement) {
+    //const input = event.target as HTMLInputElement;
+    let valor = inputElement.value;
     const soloNumeros = valor.replace(/[^0-9]/g, '');
 
     if (valor !== soloNumeros) {
-      input.value = soloNumeros;
+      inputElement.value = soloNumeros;
     }
   }
   //   readonly usuario_actual = signal<Usuario | null>(null);

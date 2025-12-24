@@ -106,8 +106,8 @@
             <div class="modal-body">
                 <div class="col-md-6">
                     <label class="form-label">Clase</label>
-                    <select class="form-control" #clase>
-                        <option value="">Selecciona una clase</option>
+                    <select class="form-control" [ngModel]="tipoH()" (ngModelChange)="tipoH.set($event)" #clase>
+                        <option [value]="null" disabled>Selecciona una clase</option>
                         <option value="simple">Simple</option>
                         <option value="doble">Doble</option>
                         <option value="ejecutiva">Ejecutiva</option>
@@ -115,8 +115,8 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Piso</label>
-                    <select class="form-control" #piso>
-                        <option value="">Seleccione su piso</option>
+                    <select class="form-control" [ngModel]="pisoH()" (ngModelChange)="pisoH.set($event)" #piso>
+                        <option [value]="null" disabled>Seleccione su piso</option>
                         <option value="1">Piso 1</option>
                         <option value="2">Piso 2</option>
                         <option value="3">Piso 3</option>
@@ -131,7 +131,7 @@
                     Cancelar
                 </button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                    (click)="editar(clase.value, piso.value, habi?.id)">
+                    (click)="editar(habi?.id)">
                     Guardar
                 </button>
             </div>

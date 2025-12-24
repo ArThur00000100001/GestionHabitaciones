@@ -44,11 +44,12 @@
                     <div>
                         <h1>Lista de usuarios</h1>
                     </div>
-                   
+
                 </div>
                 <div class="card-body">
-                     <div>
-                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})"><i class="bi bi-plus-square"></i> Nuevo usuario</button>
+                    <div>
+                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})"><i
+                                class="bi bi-plus-square"></i> Nuevo usuario</button>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -80,7 +81,7 @@
                                                 <i class="bi-pen"></i>
                                             </button>
                                         </td>
-                                        
+
                                     </tr>
                                     }
                                 </tbody>
@@ -108,42 +109,91 @@
             </div>
             <div class="modal-body">
 
-                <div class="row">
+                <form class="form" [formGroup]="formData" (ngSubmit)="guardar(usuario?.id); formData.valid? data.set(null) : null">
 
-                    <div class="col-md-6">
-                        <label class="form-label">DNI</label>
-                        <input class="form-control" type="text" (input)="verificar($event, dniModal)" placeholder="Ingrese su DNI" size="15" [maxLength]="8"
-                            [value]="usuario?.dni" #dniModal>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input class="form-control" type="text" placeholder="Ingese su nombre" size="15"
-                            [maxLength]="20" [value]="usuario?.nombres" #nombreModal>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Apellido paterno</label>
-                        <input class="form-control" type="text" placeholder="ingrese su apellido paterno" size="23"
-                            [maxLength]="20" [value]="usuario?.primer_apellido" #apellidoPModal>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">apellido materno</label>
-                        <input class="form-control" type="text" placeholder="Ingese su apellido materno" size="23"
-                            [maxLength]="20" [value]="usuario?.segundo_apellido" #apellidoMModal>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label class="form-label">DNI</label>
+                            <!--[ngModel]="userDNI()"
+                                (ngModelChange)="verificar(dniModal); userDNI.set($event)"
+                                [value]="usuario?.dni"-->
+                            <input class="form-control" type="text" (change)="verificar(dniModal)" formControlName="dni"  placeholder="Ingrese su DNI"
+                                size="15" [maxLength]="8"  #dniModal>
+
+                            <div class="text-danger">
+
+                                @if (formData.get('dni')?.invalid && formData.get('dni')?.touched) {
+                                    @if (formData.get('dni')?.errors?.['required']) {
+                                        El dni es obligatorio
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre</label>
+                                <!--[ngModel]="userName()" (ngModelChange)="userName.set($event)"
+                                [value]="usuario?.nombres"-->
+                            <input class="form-control" type="text" formControlName="nombre"  placeholder="Ingese su nombre"
+                                 #nombreModal>
+
+                            <div class="text-danger">
+                                @if (formData.get('nombre')?.invalid && formData.get('nombre')?.touched) {
+                                    @if (formData.get('nombre')?.errors?.['required']) {
+                                        El nombre es obligatorio
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Apellido paterno</label>
+                            <!--[maxLength]="20" [ngModel]="userLastnameP()" (ngModelChange)="userLastnameP.set($event)"-->
+                            <input class="form-control" type="text" formControlName="apellidoP" placeholder="ingrese su apellido paterno" size="23"
+                                #apellidoPModal>
+
+                            <div class="text-danger">
+                                
+                                @if (formData.get('apellidoP')?.invalid && formData.get('apellidoP')?.touched) {
+                                    @if (formData.get('apellidoP')?.errors?.['required']) {
+                                        El apellido es obligatorio
+                                    }
+                                }
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">apellido materno</label>
+                            <!--[ngModel]="userLasnameM()" (ngModelChange)="userLasnameM.set($event)" [maxLength]="20" -->
+                            <input class="form-control" type="text" formControlName="apellidoM" placeholder="Ingese su apellido materno" size="23"
+                                #apellidoMModal>
+
+                            <div class="text-danger">
+                                @if (formData.get('apellidoM')?.invalid && formData.get('apellidoM')?.touched) {
+                                    @if (formData.get('apellidoM')?.errors?.['required']) {
+                                        El apellido es obligatorio
+                                    }
+                                }
+                            </div>
+
+                        </div>
+
                     </div>
 
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    (click)="data.set(null)">
+                    <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="data.set(null)">
                     Cancelar
                 </button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                    (click)="guardar(usuario?.id, dniModal.value, nombreModal.value, apellidoPModal.value, apellidoMModal.value);">
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" >
                     Guardar
                 </button>
             </div>
+
+                </form>
+
+            </div>
+            
         </div>
     </div>
 </div>

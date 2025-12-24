@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { baseUrl } from '../../enviroment';
+import { FormsModule } from '@angular/forms';
 
 type ModalData = { mode: 'edit' | 'add'; item: Habitacion | null };
 
@@ -11,12 +12,15 @@ export type Habitacion = {
 
 @Component({
   selector: 'inicio-view',
+  imports: [FormsModule],
   templateUrl: './inicio.html',
   styleUrl: './inicio.scss',
 })
 export class inicio {
   habitaciones = signal<Habitacion[]>([]);
   readonly data = signal<ModalData | null>(null);
+  readonly tipoH = signal<'simple' | 'doble' | 'ejecutivo' | null >(null)
+  readonly pisoH = signal<string>('')
 
   constructor() {
     this.cargarDatos();
@@ -30,7 +34,7 @@ export class inicio {
     }
   }
 
-  async guardar(clase: string, piso: string) {
+  async guardar() {
     /*this.habitaciones.update(item => [
             ...item,
             {
@@ -43,8 +47,8 @@ export class inicio {
     const response = await fetch(`${baseUrl}/habitaciones`, {
       method: 'POST',
       body: JSON.stringify({
-        tipo_habitacion: clase,
-        piso: +piso,
+        tipo_habitacion: this.tipoH(),
+        piso: +this.pisoH(),
       }),
       headers: {
         'Content-type': 'application/json',
@@ -91,7 +95,7 @@ export class inicio {
     }
   }
 
-  async editar(clase: string, piso: string, id: number | undefined) {
+  async editar(id: number | undefined) {
     if (this.data()?.mode == 'edit') {
 
       const response = await fetch(`${baseUrl}/habitaciones/${id}`, {
@@ -100,8 +104,8 @@ export class inicio {
           'Content-type': 'application/json',
         },
         body: JSON.stringify({
-          tipo_habitacion: clase,
-          piso: piso,
+          tipo_habitacion: this.tipoH(),
+          piso: this.pisoH(),
         }),
       });
 
@@ -114,7 +118,7 @@ export class inicio {
 
     }
     if(this.data()?.mode == 'add'){
-      this.guardar(clase, piso)
+      this.guardar()
     }
     this.data.set(null)
   }
