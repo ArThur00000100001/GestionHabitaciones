@@ -72,6 +72,7 @@ export class usuarios {
   }
 
   async ingresar() {
+    this.formData.markAllAsTouched();
     if (!(+this.formData.get('dni')?.value == +this.formData.get('dni')?.value)) {
       this.formData.get('dni')?.setValue('');
       console.log('ere');
@@ -80,8 +81,14 @@ export class usuarios {
     }
 
     const isValidForm = this.formData.valid;
+    console.log(this.formData.errors, isValidForm)
+    Object.keys(this.formData.controls).forEach(x=>{
+      const control = this.formData.get(x)
+      console.log(control?.errors)
+    })
 
     if (isValidForm) {
+      
       const response = await fetch(`${baseUrl}/usuarios`, {
         method: 'POST',
         body: JSON.stringify({
@@ -103,7 +110,7 @@ export class usuarios {
         this.data.set(null);
       }
     }else{
-      this.formData.markAllAsTouched();
+      
     }
 
     this.cargarDatos();
