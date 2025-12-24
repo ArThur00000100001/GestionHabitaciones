@@ -11,7 +11,7 @@ type Reserva = {
   usuario_id: number;
   estado: number;
   fecha_registro: string;
-  habitacion: Habitacion | null | undefined;
+  habitacion: Habitacion;
   usuario: Usuario | null | undefined;
 };
 
@@ -48,9 +48,55 @@ export class reserva {
     }
   }
 
-  selectHabitacion(id: string | null){
+  selectHabitacion(id: string | null, estado:HTMLInputElement, boton: HTMLButtonElement, select: HTMLSelectElement){
 
-    console.log(Number(id))
+    
+    const habi = this.reservas().filter((x) => x.habitacion.id == Number(id))
+    const habi2 = habi.map(x => habi)
+    
+    if(habi2[0][0].estado == 0){
+      estado.value = 'Libre'
+      estado.style.display = 'none'
+      boton.disabled = false
+      select.style.display = 'block'
+    }else if(habi2[0][0].estado == 1){
+      estado.value = 'Reservado'
+      estado.style.display = 'block'
+      boton.disabled = true
+      select.style = 'display: none'
+    }else if(habi2[0][0].estado == 2){
+      estado.value = 'Ocupado'
+      estado.style.display = 'block'
+      boton.disabled = true
+      select.style = 'display: none'
+    }
+    
+    console.log(Number(id), habi2[0][0].estado)
+
+  }
+
+  async guardar(userId:string, estado: string, habitacionId:string){
+
+    const response = await fetch(`${baseUrl}/registros`, {
+      method: 'POST',
+      body: JSON.stringify({
+        habitacion_id: +habitacionId,
+        usuario_id: +userId,
+        estado: +estado
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+
+    if(!response.ok){
+      console.log('Error')
+    }else{
+      console.log('Funciona')
+      this.cargarDatos()
+    }
+    
 
   }
 

@@ -1,149 +1,146 @@
 <div class="container">
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white text-center">
-                    <div>
-                        <h1>Reservas</h1>
-                    </div>
-
-                </div>
-                <div class="card-body">
-                    <div>
-
-                        <button class="btn btn-primary" (click)="data.set({mode: 'add', item: null})"><i
-                                class="bi bi-plus-square"></i> Registrar reserva</button>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">ID Habitacion</th>
-                                        <th scope="col">Nombre de usuario</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Fecha de registro</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @for (item of reservas(); track $index) {
-                                    <tr>
-                                        <td>{{item.id}}</td>
-                                        <td>ID: {{item.habitacion_id}} <br>
-                                            Clase: {{item.habitacion?.tipo_habitacion}} <br>
-                                            Pisos: {{item.habitacion?.piso}}
-                                        </td>
-                                        <td>{{item.usuario?.nombres}}</td>
-                                        <td>
-                                            @if (item.estado == 0){
-                                            <span>Libre <i class="bi bi-check-lg"></i></span>
-                                            }@else if (item.estado == 1) {
-                                            <span>Reservado <i class="bi bi-exclamation-lg"></i></span>
-                                            }@else if (item.estado == 2) {
-                                            <span>Ocupado <i class="bi bi-x-lg"></i></span>
-                                            }
-                                        </td>
-                                        <td>{{item.fecha_registro}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger">
-                                                <i class="bi-trash-fill"
-                                                    (click)="data.set({mode: 'add', item: null})"></i>
-                                            </button>
-                                            -
-                                            <button type="button" class="btn btn-primary">
-                                                <i class="bi-pen"></i>
-                                            </button>
-                                        </td>
-
-                                    </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-dark text-white text-center">
+          <div>
+            <h1>Reservas</h1>
+          </div>
         </div>
-
+        <div class="card-body">
+          <div>
+            <button class="btn btn-primary" (click)="data.set({ mode: 'add', item: null })">
+              <i class="bi bi-plus-square"></i> Registrar reserva
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID Habitacion</th>
+                    <th scope="col">Nombre de usuario</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha de registro</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of reservas(); track $index) {
+                  <tr>
+                    <td>{{ item.id }}</td>
+                    <td>
+                      ID: {{ item.habitacion_id }} <br />
+                      Clase: {{ item.habitacion?.tipo_habitacion }} <br />
+                      Pisos: {{ item.habitacion?.piso }}
+                    </td>
+                    <td>{{ item.usuario?.nombres }}</td>
+                    <td>
+                      @if (item.estado == 0){
+                      <span>Libre <i class="bi bi-check-lg"></i></span>
+                      }@else if (item.estado == 1) {
+                      <span>Reservado <i class="bi bi-exclamation-lg"></i></span>
+                      }@else if (item.estado == 2) {
+                      <span>Ocupado <i class="bi bi-x-lg"></i></span>
+                      }
+                    </td>
+                    <td>{{ item.fecha_registro }}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger">
+                        <i
+                          class="bi-trash-fill"
+                          (click)="data.set({ mode: 'add', item: null })"
+                        ></i>
+                      </button>
+                      -
+                      <button type="button" class="btn btn-primary">
+                        <i class="bi-pen"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!--Modal-->
-@let _data = data();
-@if(_data != null){
-@let usuario = _data.item;
-<div class="modal d-block" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
-                <button type="button" class="btn-close" (click)="data.set(null)"></button>
-            </div>
-            <div class="modal-body">
+@let _data = data(); @if(_data != null){ @let usuario = _data.item;
+<div
+  class="modal d-block"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+        <button type="button" class="btn-close" (click)="data.set(null)"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-9">
+            <label class="form-label mb-3">Habitacion</label>
+            <select
+              class="form-control mb-3"
+              (change)="selectHabitacion($any($event.target).value, estado, btn, select)"
+              #habitacionId
+            >
+              <option value="0" disabled>Habitaciones</option>
 
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <label class="form-label mb-3">Habitacion</label>
-                        <select class="form-control mb-3" (change)="selectHabitacion($any($event.target).value)">
-                            <option value="0" disabled>habitacion</option>
-
-                            @for (item of reservas(); track $index) {
-                            <option [value]="item.habitacion?.id">{{item.habitacion?.id}}</option>
-                            }
-
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label mb-3">clase</label>
-                        <input class="form-control" type="text" readonly>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label mb-3">Piso</label>
-                        <input class="form-control" type="text" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label mb-3">Estado</label>
-                        <input class="form-control" type="text" readonly>
-                    </div>
-
-                </div>
-                <div class="row">
-
-                    <div class="col-md-5">
-                        <label class="form-label">Usuario</label>
-                        <select class="form-control">
-                            <option value="">Usuario</option>
-                            @for (item of usuarios(); track $index) {
-                            <option [value]="item.id">{{item.nombres}}</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">clase</label>
-                        <input class="form-control" type="text" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Piso</label>
-                        <input class="form-control" type="text" readonly>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="data.set(null)">
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    Guardar
-                </button>
-            </div>
+              @for (item of reservas(); track $index) {
+              <option [value]="item.habitacion?.id">
+                ID: {{ item.habitacion?.id }} ------- CLASE:
+                {{ item.habitacion?.tipo_habitacion }} ------- PISO:
+                {{ item.habitacion?.piso }}
+              </option>
+              }
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label mb-3">Estado</label>
+            <input class="form-control" type="text" readonly #estado />
+            <select class="form-control" #select>
+              <option value="0">Libre</option>
+              <option value="1">Reservado</option>
+              <option value="2">Ocupado</option>
+            </select>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="form-label">Usuario</label>
+            <select class="form-control" #userId>
+              <option value="0" disabled>Usuario</option>
+              @for (item of usuarios(); track $index) {
+              <option [value]="item.id">
+                {{ item.nombres }} {{ item.primer_apellido }} {{ item.segundo_apellido }}
+              </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="data.set(null)">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          #btn
+          (click)="guardar(userId.value, select.value, habitacionId.value); data.set(null)"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 }
