@@ -118,7 +118,7 @@
                             <!--[ngModel]="userDNI()"
                                 (ngModelChange)="verificar(dniModal); userDNI.set($event)"
                                 [value]="usuario?.dni"-->
-                            <input class="form-control" type="text" (change)="verificar(dniModal)" formControlName="dni"  placeholder="Ingrese su DNI"
+                            <input class="form-control" type="text" (input)="verificar(dniModal)" formControlName="dni"  placeholder="Ingrese su DNI"
                                 size="15" [maxLength]="8"  #dniModal>
 
                             <div class="text-danger">
